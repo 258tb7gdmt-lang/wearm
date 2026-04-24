@@ -16,10 +16,11 @@ WeARM est distribué selon plusieurs paliers afin de s'adapter aux besoins des u
 ## 3. Infrastructure de Calcul AETHER™
 *Note : Technologie disponible exclusivement dans les versions Pro et supérieures.*
 
-Le Core de WeARM est propulsé par AETHER, une infrastructure de calcul conçue pour l'exécution massivement parallèle et la gestion mémoire à latence zéro.
-- **Segmentation Slab & Arena** : Contrairement aux gestions de tas (Heap) classiques, AETHER fragmente la mémoire en Arènes privées par thread. Chaque allocation d'objet `we::Managed` s'effectue en O(1), garantissant une performance constante quelle que soit la charge.
-- **Déterminisme Temporel** : Avec une latence de cycle stabilisée à 11,7 µs, le cycle de vie complet d'une session de calcul (Initialisation, Allocation de 100 objets Managed, Traitement et Destruction) est exécuté en moyenne en 11,7 microsecondes.
-- **Optimisation TLB & Cache** : Le moteur maximise la localité spatiale en alignant dynamiquement les structures de données sur les lignes de cache du CPU. Sur les systèmes compatibles, AETHER active le mode "Superpages/HugePages" pour minimiser les rechargements de tables de translation (TLB Misses).
+Le Core de WeARM est propulsé par AETHER, une infrastructure de calcul propriétaire conçue pour l'exécution massivement parallèle et la suppression des goulots d'étranglement mémoires traditionnels.
+
+- **Souveraineté Mémoire (O(1))** : Contrairement aux gestions de tas (Heap) standards, AETHER utilise un moteur d'allocation déterministe. Chaque objet `we::Managed` bénéficie d'un accès instantané à la ressource, garantissant une fluidité constante même sous une charge de calcul extrême.
+- **Déterminisme Temporel** : Le cycle de vie complet d'une session de calcul (Initialisation, Allocation de 100 objets Managed, Traitement et Destruction) est stabilisé à une moyenne de 11,7 microsecondes. Cette précision garantit une réactivité prédictible, indispensable pour l'analyse chirurgicale des flux d'instructions ARM64 et x86_64.
+- **Optimisation de la Barrière Silicium** : AETHER maximise la localité spatiale en alignant dynamiquement les structures de données sur l'architecture interne du processeur. Le moteur réduit drastiquement les cycles d'attente (Wait States) en optimisant les interactions avec les caches de données et les unités de gestion mémoire (MMU) du CPU.
 
 ---
 
@@ -54,7 +55,7 @@ WeARM repose sur une couche d'abstraction propriétaire : le système de fichier
 ## 7. Noyau d'Introspection Binaire & Recherche
 WeARM déconstruit le code pour identifier les structures machine réelles avec une précision absolue.
 - **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF. Il cartographie les segments directement depuis le binaire assemblé.
-- **Scoring Intelligence** : Détection automatique du point d’entrée garantissant un linking correct sans besoin de symboles explicites.
+- **Scoring Intelligence** : Détection automatique du point d’entrée garantissant un linking correct sans besoin de symboles explicites de la part de l'utilisateur.
 - **Innovation Windows** : Résout les liaisons complexes et extraction des symboles sans usage de fichiers .def ou de directives `__declspec`.
 - **Recherche Universelle** : Recherche active après exécution utilisant l'extraction des symboles du projet complet. Détection des conflits (Duplicate Labels) et Quick-Jump vers l'instruction.
 
