@@ -56,14 +56,14 @@ WeARM repose sur une couche d'abstraction propriétaire : le système de fichier
 WeARM déconstruit le code pour identifier les structures machine réelles avec une précision absolue.
 - **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF. Il cartographie les segments directement depuis le binaire assemblé. Cette introspection s'appuie sur nos propres moteurs de parsing entièrement autonomes : WeARM ne dépend d'aucune API système et reste insensible aux mises à jour ou modifications des bibliothèques de l'OS.
 - **Scoring Intelligence** : Détection automatique du point d’entrée garantissant un linking correct sans besoin de symboles explicites de la part de l'utilisateur.
-- **Innovation Windows** : Résout les liaisons complexes et extraction des symboles sans usage de fichiers .def ou de directives `__declspec`.
+- **Innovation Windows** : Outrepasse les limites natives en résolvant les liaisons complexes et l'extraction des symboles sans usage de fichiers .def ou de directives `__declspec`.
 - **Recherche Universelle** : Recherche active après exécution utilisant l'extraction des symboles du projet complet. Détection des conflits (Duplicate Labels) et Quick-Jump vers l'instruction.
 
 ---
 
 ## 8. Pilotage Multi-Toolchain & Extensions
 Couche d'abstraction intelligente entre l'utilisateur et les outils de compilation (Toolchains).
-- **Agnosticisme des Outils** : Drivers intégrés pour NASM, FASM, GNU AS et CLANG. Le passage d'un assembleur à un autre se fait sans reconfiguration des sources.
+- **Agnosticisme des Toolchains** : Drivers intégrés pour NASM, FASM, GNU AS et CLANG. Le passage d'un moteur d'assemblage à un autre s'effectue sans aucune modification des sources originales ni reconfiguration des scripts de build. WeARM assure la cohérence des paramètres d'entrée/sortie quel que soit l'outil piloté.
 - **Injection d'Environnement** : WeARM manipule dynamiquement les variables d'environnement système pour garantir que les outils externes "voient" le VFS sans configuration manuelle.
 - **Driver de Liaison Hybride** : Sélection automatique entre linkers bas niveau (ld, lld) et drivers complexes (Clang) pour l'automatisation des SDK (UCRT, libSystem).
 - **Extensions Réseau** : L'inclusion de modules comme 'network.http' démontre la capacité d'extension du Core pour la communication et la télémétrie.
