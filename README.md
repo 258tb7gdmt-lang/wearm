@@ -4,6 +4,20 @@
 * **Target:** Multi-Platform System (ARM64 / x86_64)
 * **Compliance:** Low-latency Industrial Standards & Memory Sovereignty
 
+## Sommaire
+1. [Introduction Technique](#1-introduction-technique)
+2. [Modèle de Licence](#2-modèle-de-licence)
+3. [Infrastructure de Calcul AETHER™](#3-infrastructure-de-calcul-aether)
+4. [Architecture Découplée & Plugins](#4-architecture-découplée--plugins-de-précision)
+5. [Le Trampoline : Surveillance & Diagnostic](#5-le-trampoline--surveillance--diagnostic)
+6. [Architecture VFS & Gestion des Sources](#6-architecture-vfs--gestion-des-sources)
+7. [Noyau d'Introspection Binaire](#7-noyau-dintrospection-binaire--recherche)
+8. [Pilotage Multi-Toolchain](#8-pilotage-multi-toolchain--extensions)
+9. [Cycle de Développement & Projets](#9-cycle-de-développement--types-de-projets)
+10. [Variables de Substitution](#10-variables-de-substitution-dynamiques)
+11. [Téléchargements](#11-téléchargements--distribution-licence-community)
+
+
 ## 1. Introduction Technique
 **WeARM®** est un contrôleur de flux binaire dynamique et évolutif, ainsi qu'un environnement de prototypage haute performance pour l'assembleur bas niveau (ARM64 et x86_64).
 Conçu pour les entreprises, les industries de haute technologie et le secteur de l'IoT, **WeARM®** automatise la complexité des chaînes d'outils de compilation croisée. Il permet une transition fluide de la conception algorithmique en assembleur vers les environnements de production industriels.
