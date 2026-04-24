@@ -1,5 +1,9 @@
 # WeARM® v3.5RC - MANUEL DE RÉFÉRENCE & ARCHITECTURE
 
+* **Core:** AETHER Deterministic Infrastructure (Slab-based)
+* **Target:** Multi-Platform System (ARM64 / x86_64)
+* **Compliance:** Low-latency Industrial Standards & Memory Sovereignty
+
 ## 1. Introduction Technique
 **WeARM®** est un contrôleur de flux binaire dynamique et évolutif, ainsi qu'un environnement de prototypage haute performance pour l'assembleur bas niveau (ARM64 et x86_64).
 Conçu pour les entreprises, les industries de haute technologie et le secteur de l'IoT, **WeARM®** automatise la complexité des chaînes d'outils de compilation croisée. Il permet une transition fluide de la conception algorithmique en assembleur vers les environnements de production industriels.
