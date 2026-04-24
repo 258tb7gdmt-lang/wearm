@@ -1,165 +1,94 @@
-# MANUEL DE RÉFÉRENCE WeARM v3.5RC
+# WeARM v3.5RC - MANUEL DE RÉFÉRENCE & ARCHITECTURE
 
 ## 1. Introduction Technique
-WeARM est un contrôleur de flux binaire dynamique et un environnement de prototypage haute performance pour l'assembleur bas niveau (ARM64 et x86_64). Le logiciel automatise la complexité des chaînes d'outils de compilation croisée pour permettre une transition fluide vers les environnements de production industriels.
+WeARM est un contrôleur de flux binaire dynamique et évolutif, ainsi qu'un environnement de prototypage haute performance pour l'assembleur bas niveau (ARM64 et x86_64).
+Conçu pour les entreprises, les industries de haute technologie et le secteur de l'IoT, WeARM automatise la complexité des chaînes d'outils de compilation croisée. Il permet une transition fluide de la conception algorithmique en assembleur vers les environnements de production industriels.
 
 ---
 
 ## 2. Modèle de Licence
 WeARM est distribué selon plusieurs paliers afin de s'adapter aux besoins des utilisateurs :
-* **Licence Community** : Version gratuite destinée à l'apprentissage, aux étudiants et aux développeurs indépendants. Elle inclut les fonctionnalités essentielles du contrôleur de flux et du VFS.
-* **Licences Professionnelles** : Versions étendues pour l'industrie incluant des moteurs de performance avancés et des outils d'analyse critiques.
+- **Licence Community** : Version gratuite destinée à l'apprentissage, aux étudiants et aux développeurs indépendants. Elle inclut les fonctionnalités essentielles du contrôleur de flux et du VFS.
+- **Licences Professionnelles** : Versions étendues pour l'industrie incluant des moteurs de performance avancés et des outils d'analyse critiques.
 
 ---
 
-## 3. Moteur AETHER™ : Performance Atomique
+## 3. Infrastructure de Calcul AETHER™
 *Note : Technologie disponible exclusivement dans les versions Pro et supérieures.*
 
-Le moteur AETHER redéfinit la réactivité du développement bas niveau :
-* **Gestion Mémoire "Lock-Free"** : Isolation par thread (TLS) via Slab Arena, éliminant 100% des verrous système (Mutex).
-* **Latence de Cycle < 12µs** : Cycle complet (Initialisation, Allocation, Traitement et Destruction) exécuté en moyenne en 11,7 microsecondes.
-* **Localité Spatiale Optimisée** : Rétention forcée des données dans le cache processeur pour éviter les accès à la RAM lente.
+Le Core de WeARM est propulsé par AETHER, une infrastructure de calcul conçue pour l'exécution massivement parallèle et la gestion mémoire à latence zéro.
+- **Segmentation Slab & Arena** : Contrairement aux gestions de tas (Heap) classiques, AETHER fragmente la mémoire en Arènes privées par thread. Chaque allocation d'objet `we::Managed` s'effectue en O(1), garantissant une performance constante quelle que soit la charge.
+- **Déterminisme Temporel** : Avec une latence de cycle stabilisée à 11,7 µs, le cycle de vie complet d'une session de calcul (Initialisation, Allocation de 100 objets Managed, Traitement et Destruction) est exécuté en moyenne en 11,7 microsecondes.
+- **Optimisation TLB & Cache** : Le moteur maximise la localité spatiale en alignant dynamiquement les structures de données sur les lignes de cache du CPU. Sur les systèmes compatibles, AETHER active le mode "Superpages/HugePages" pour minimiser les rechargements de tables de translation (TLB Misses).
 
 ---
 
 ## 4. Architecture Découplée & Plugins de Précision
-L'intelligence de WeARM repose sur une architecture modulaire où les composants critiques sont externalisés :
-* **Moteurs d'Analyse Distribués** : Le désassemblage (Capstone), le Highlighting et les suggestions d'instructions opèrent sous forme de plugins autonomes.
-* **SDK & Évolutivité (v3.6RC)** : Architecture permettant l'intégration de moteurs tiers. Le plugin 'com.wearm.engine.capstone' sera disponible sous licence MIT comme modèle.
-* **Moteur de Scripting LUA** : Intégration native du loader 'com.wearm.core.loader.lua' pour l'extension de fonctionnalités via scripts.
+L'intelligence de WeARM ne repose pas sur un bloc monolithique, mais sur une architecture modulaire où les composants critiques sont externalisés et substituables.
+- **Moteurs d'Analyse Distribués** : Le moteur de désassemblage (basé sur Capstone), le Highlighting et les suggestions d'instructions ne sont pas intégrés nativement au Core. Ils opèrent sous forme de plugins autonomes.
+- **SDK & Évolutivité (v3.6RC)** : Cette architecture permet aux industries d'intégrer leurs propres moteurs. Le plugin 'core.wearm.engine.capstone' sera disponible sous licence MIT pour servir de modèle de substitution.
+- **Moteur de Scripting LUA** : Intégration native du loader 'com.wearm.core.loader.lua'. Il permet l'extension de fonctionnalités via scripts LUA, offrant une alternative agile au développement C/C++.
 
 ---
 
 ## 5. Le Trampoline : Surveillance & Diagnostic
-L’exécution est encapsulée dans une couche propriétaire garantissant un débogage chirurgical :
-* **Analyseur de Conformité ABI** : Surveillance active des conventions d'appel et alertes immédiates en cas de violation des registres non-volatils.
-* **Introspection Multimédia** : Affichage temps réel des registres SSE (x86) et NEON (ARM).
-* **Réconciliation de Crash** : Calcul de l'offset statique en cas d'erreur fatale avec pointage direct de la ligne source dans l'éditeur.
+L’exécution est encapsulée dans une couche propriétaire (Trampoline). Elle garantit une sécurité maximale et un débogage chirurgical.
+- **Analyseur de Conformité ABI** : Surveillance active des conventions d'appel. Toute violation des registres non-volatils déclenche une alerte immédiate.
+- **Introspection Multimédia** : Affichage temps réel des registres SSE (x86) et NEON (ARM), essentiel pour l'optimisation de haute performance.
+- **Réconciliation de Crash** : Le moteur calcule l'offset statique en cas d'erreur fatale et pointe la ligne source fautive directement dans l'éditeur.
 
 ---
 
-## 6. Architecture VFS (Virtual File System)
-* **Importation Sécurisée** : Travail exclusif sur des copies virtuelles sans altérer les sources de référence.
-* **Exécution Isolée (Sandbox)** : Redirection automatique des opérations vers la zone sécurisée Work/.
-* **Structure de Projet** : `src/` (sources), `headers/` (dépendances), `build/` (objets et binaires), `Work/` (sandbox).
+## 6. Architecture VFS & Gestion des Sources
+WeARM repose sur une couche d'abstraction propriétaire : le système de fichiers virtuel (VFS). Cette technologie garantit l'intégrité totale de vos actifs numériques.
+- **Importation Sécurisée** : WeARM ne travaille jamais sur vos fichiers originaux. Lors de l'importation, le VFS crée une copie exacte dans un dossier projet dédié.
+- **Étanchéité (Sandbox)** : Vous pouvez modifier, tester et crash-tester votre code sans jamais altérer vos sources de référence. Le dossier caché `Work/` redirige automatiquement les opérations de fichier relatives vers cette zone sécurisée.
+- **Structure du Projet** :
+    - `src/` : Dossier racine pour vos fichiers sources (.s, .asm). Virtualisé et persistant.
+    - `headers/` : Centralise les fichiers d'en-tête (.h, .inc) pour la résolution automatique des dépendances.
+    - `build/` : Zone de sortie volatile vidée à chaque début de build (.o, .exe, .dll, .a, .dylib).
+    - `Work/` : (Caché) Couche d'exécution interne sandboxée.
 
 ---
 
-## 7. Noyau d'Introspection Binaire
-WeARM déconstruit le code pour identifier les structures machine réelles :
-* **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF.
-* **Scoring Intelligence** : Détection automatique du point d’entrée pour un linking correct sans symboles explicites.
-* **Innovation Windows** : Résolution des liaisons complexes sans usage de fichiers .def ou directives __declspec.
-
----
-
-## 8. Pilotage Multi-Toolchain & Extensions
-Couche d'abstraction entre l'utilisateur et les outils de compilation :
-* **Agnosticisme des Outils** : Drivers pour NASM, FASM, GNU AS et CLANG sans reconfiguration des sources.
-* **Injection d'Environnement** : Manipulation dynamique des variables pour la visibilité immédiate du VFS.
-* **Liaison Hybride** : Sélection automatique entre linkers bas niveau (ld, lld) et drivers complexes (Clang).
-
----
-
-## 9. Téléchargements et Distribution
-Versions officielles de la licence Community :
-* macOS : [Télécharger WeARM.dmg](https://upd.wearm.dev/get/mac)
-* Windows : [Télécharger WeARM_Setup.exe](https://upd.wearm.dev/get/windows)
-
----
-
-## 10. Variables de Substitution
-* **$SRCPATH** : Chemin absolu vers le fichier source (.s).
-* **$OUTPATH** : Destination pour l'objet généré (.o).
-* **$INCDIR** : Dossier miroir des en-têtes.
-* **$OUT** : Chemin complet du binaire final.
-* **$OBJS** : Liste consolidée des fichiers objets.
-
----
-
-## 11. Licence
-Ce dépôt est utilisé pour la distribution des binaires officiels. Le code source de WeARM est propriétaire. Consultez le fichier LICENSE.txt pour le contrat EULA.
-
-© 2026 WeARM Core™ – Technologie Propriétaire. Tous droits réservés.# MANUEL DE RÉFÉRENCE WeARM v3.5RC
-
-## 1. Introduction Technique
-WeARM est un contrôleur de flux binaire dynamique et un environnement de prototypage haute performance pour l'assembleur bas niveau (ARM64 et x86_64). Le logiciel automatise la complexité des chaînes d'outils de compilation croisée pour permettre une transition fluide vers les environnements de production industriels.
-
----
-
-## 2. Modèle de Licence
-WeARM est distribué selon plusieurs paliers afin de s'adapter aux besoins des utilisateurs :
-* **Licence Community** : Version gratuite destinée à l'apprentissage, aux étudiants et aux développeurs indépendants. Elle inclut les fonctionnalités essentielles du contrôleur de flux et du VFS.
-* **Licences Professionnelles** : Versions étendues pour l'industrie incluant des moteurs de performance avancés et des outils d'analyse critiques.
-
----
-
-## 3. Moteur AETHER™ : Performance Atomique
-*Note : Technologie disponible exclusivement dans les versions Pro et supérieures.*
-
-Le moteur AETHER redéfinit la réactivité du développement bas niveau :
-* **Gestion Mémoire "Lock-Free"** : Isolation par thread (TLS) via Slab Arena, éliminant 100% des verrous système (Mutex).
-* **Latence de Cycle < 12µs** : Cycle complet (Initialisation, Allocation, Traitement et Destruction) exécuté en moyenne en 11,7 microsecondes.
-* **Localité Spatiale Optimisée** : Rétention forcée des données dans le cache processeur pour éviter les accès à la RAM lente.
-
----
-
-## 4. Architecture Découplée & Plugins de Précision
-L'intelligence de WeARM repose sur une architecture modulaire où les composants critiques sont externalisés :
-* **Moteurs d'Analyse Distribués** : Le désassemblage (Capstone), le Highlighting et les suggestions d'instructions opèrent sous forme de plugins autonomes.
-* **SDK & Évolutivité (v3.6RC)** : Architecture permettant l'intégration de moteurs tiers. Le plugin 'com.wearm.engine.capstone' sera disponible sous licence MIT comme modèle.
-* **Moteur de Scripting LUA** : Intégration native du loader 'com.wearm.core.loader.lua' pour l'extension de fonctionnalités via scripts.
-
----
-
-## 5. Le Trampoline : Surveillance & Diagnostic
-L’exécution est encapsulée dans une couche propriétaire garantissant un débogage chirurgical :
-* **Analyseur de Conformité ABI** : Surveillance active des conventions d'appel et alertes immédiates en cas de violation des registres non-volatils.
-* **Introspection Multimédia** : Affichage temps réel des registres SSE (x86) et NEON (ARM).
-* **Réconciliation de Crash** : Calcul de l'offset statique en cas d'erreur fatale avec pointage direct de la ligne source dans l'éditeur.
-
----
-
-## 6. Architecture VFS (Virtual File System)
-* **Importation Sécurisée** : Travail exclusif sur des copies virtuelles sans altérer les sources de référence.
-* **Exécution Isolée (Sandbox)** : Redirection automatique des opérations vers la zone sécurisée Work/.
-* **Structure de Projet** : `src/` (sources), `headers/` (dépendances), `build/` (objets et binaires), `Work/` (sandbox).
-
----
-
-## 7. Noyau d'Introspection Binaire
-WeARM déconstruit le code pour identifier les structures machine réelles :
-* **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF.
-* **Scoring Intelligence** : Détection automatique du point d’entrée pour un linking correct sans symboles explicites.
-* **Innovation Windows** : Résolution des liaisons complexes sans usage de fichiers .def ou directives __declspec.
+## 7. Noyau d'Introspection Binaire & Recherche
+WeARM déconstruit le code pour identifier les structures machine réelles avec une précision absolue.
+- **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF. Il cartographie les segments directement depuis le binaire assemblé.
+- **Scoring Intelligence** : Détection automatique du point d’entrée garantissant un linking correct sans besoin de symboles explicites.
+- **Innovation Windows** : Résout les liaisons complexes et extraction des symboles sans usage de fichiers .def ou de directives `__declspec`.
+- **Recherche Universelle** : Recherche active après exécution utilisant l'extraction des symboles du projet complet. Détection des conflits (Duplicate Labels) et Quick-Jump vers l'instruction.
 
 ---
 
 ## 8. Pilotage Multi-Toolchain & Extensions
-Couche d'abstraction entre l'utilisateur et les outils de compilation :
-* **Agnosticisme des Outils** : Drivers pour NASM, FASM, GNU AS et CLANG sans reconfiguration des sources.
-* **Injection d'Environnement** : Manipulation dynamique des variables pour la visibilité immédiate du VFS.
-* **Liaison Hybride** : Sélection automatique entre linkers bas niveau (ld, lld) et drivers complexes (Clang).
+Couche d'abstraction intelligente entre l'utilisateur et les outils de compilation (Toolchains).
+- **Agnosticisme des Outils** : Drivers intégrés pour NASM, FASM, GNU AS et CLANG. Le passage d'un assembleur à un autre se fait sans reconfiguration des sources.
+- **Injection d'Environnement** : WeARM manipule dynamiquement les variables d'environnement système pour garantir que les outils externes "voient" le VFS sans configuration manuelle.
+- **Driver de Liaison Hybride** : Sélection automatique entre linkers bas niveau (ld, lld) et drivers complexes (Clang) pour l'automatisation des SDK (UCRT, libSystem).
+- **Extensions Réseau** : L'inclusion de modules comme 'network.http' démontre la capacité d'extension du Core pour la communication et la télémétrie.
 
 ---
 
-## 9. Téléchargements et Distribution
-Versions officielles de la licence Community :
-* macOS : [Télécharger WeARM.dmg](https://upd.wearm.dev/get/mac)
-* Windows : [Télécharger WeARM_Setup.exe](https://upd.wearm.dev/get/windows)
+## 9. Cycle de Développement & Types de Projets
+- **PROJET : Fonction Isolée (PROJ_ISO / Mode PIC)** : Validation d'une routine de calcul. Vérification stricte de l'ABI et exécution sans crash. Génère du code indépendant de la position prêt pour l'injection dynamique.
+- **PROJET : Application Exécutable (PROJ_EXE)** : Finalisation du logiciel pour une exécution directe par l'OS. Résolution des dépendances et configuration du point d'entrée.
+- **PROJET : IoT & Embarqué (PROJ_BARE)** : Développement de micro-kernels et firmwares. Mode sans bibliothèque standard (-nostdlib) pour un contrôle matériel total.
 
 ---
 
-## 10. Variables de Substitution
-* **$SRCPATH** : Chemin absolu vers le fichier source (.s).
-* **$OUTPATH** : Destination pour l'objet généré (.o).
-* **$INCDIR** : Dossier miroir des en-têtes.
-* **$OUT** : Chemin complet du binaire final.
-* **$OBJS** : Liste consolidée des fichiers objets.
+## 10. Variables de Substitution Dynamiques
+Balises pour piloter vos outils personnalisés :
+- `$SRCPATH` : Chemin absolu vers le fichier source (.s).
+- `$OUTPATH` : Destination pour l'objet généré (.o).
+- `$INCDIR` : Chemin vers le dossier miroir des en-têtes (.h / .inc).
+- `$OUT` : Chemin complet du binaire final (EXE ou DLL).
+- `$OBJS` : Liste consolidée de tous les fichiers objets du projet (.o).
+- `$LIBS` : Liste des chemins vers les bibliothèques externes configurées.
 
 ---
 
-## 11. Licence
-Ce dépôt est utilisé pour la distribution des binaires officiels. Le code source de WeARM est propriétaire. Consultez le fichier LICENSE.txt pour le contrat EULA.
+## 11. Téléchargements & Distribution (Licence Community)
+- **macOS** : [Télécharger WeARM.dmg](https://upd.wearm.dev/get/mac)
+- **Windows** : [Télécharger WeARM_Setup.exe](https://upd.wearm.dev/get/windows)
 
-© 2026 WeARM Core™ – Technologie Propriétaire. Tous droits réservés.
+© 2026 WeARM Core™ – All rights reserved. Proprietary Technology.
