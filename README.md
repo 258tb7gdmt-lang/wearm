@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo_wearm.png" width="250" alt="WeARM Logo">
+  <img src="WeARM_LOGO.png" width="250" alt="WeARM Logo">
 </p>
 
 # WeARM
