@@ -89,7 +89,7 @@ Balises pour piloter vos outils personnalisés :
 ---
 
 ## 11. Téléchargements & Distribution (Licence Community)
-- **macOS** : [Télécharger WeARM®.dmg](https://upd.wearm.dev/get/mac)
-- **Windows** : [Télécharger WeARM®_Setup.exe](https://upd.wearm.dev/get/windows)
+- **macOS** : [Télécharger WeARM®.dmg](https://upd.wearm.dev/get/mac) (prochainement)
+- **Windows** : [Télécharger WeARM®_Setup.exe](https://upd.wearm.dev/get/windows) (prochainement)
 
 © 2026 **WeARM®** Core™ – All rights reserved. Proprietary Technology.
