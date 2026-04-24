@@ -63,4 +63,33 @@ L’exécution est encapsulée dans une couche propriétaire (Trampoline). Elle 
 
 ## 8. Pilotage Multi-Toolchain & Extensions
 Couche d'abstraction intelligente entre l'utilisateur et les outils de compilation (Toolchains).
-- **Agnosticisme des Toolchains** : Drivers intégrés pour NASM, FASM, GNU AS et CLANG. Le passage d'un moteur d'assemblage à un autre s'effectue sans aucune modification des sources originales ni reconfiguration des scripts de build. **
+- **Agnosticisme des Toolchains** : Drivers intégrés pour NASM, FASM, GNU AS et CLANG. Le passage d'un moteur d'assemblage à un autre s'effectue sans aucune modification des sources originales ni reconfiguration des scripts de build. **WeARM®** assure la cohérence des paramètres d'entrée/sortie quel que soit l'outil piloté.
+- **Injection d'Environnement** : **WeARM®** manipule dynamiquement les variables d'environnement système pour garantir que les outils externes "voient" le VFS sans configuration manuelle.
+- **Driver de Liaison Hybride** : Sélection automatique entre linkers bas niveau (ld, lld) et drivers complexes (Clang) pour l'automatisation des SDK (UCRT, libSystem).
+- **Extensions Réseau** : L'inclusion de modules comme 'network.http' démontre la capacité d'extension du Core pour la communication et la télémétrie.
+
+---
+
+## 9. Cycle de Développement & Types de Projets
+- **PROJET : Fonction Isolée (PROJ_ISO / Mode PIC)** : Validation d'une routine de calcul. Vérification stricte de l'ABI et exécution sans crash. Génère du code indépendant de la position prêt pour l'injection dynamique.
+- **PROJET : Application Exécutable (PROJ_EXE)** : Finalisation du logiciel pour une exécution directe par l'OS. Résolution des dépendances et configuration du point d'entrée.
+- **PROJET : IoT & Embarqué (PROJ_BARE)** : Développement de micro-kernels et firmwares. Mode sans bibliothèque standard (-nostdlib) pour un contrôle matériel total.
+
+---
+
+## 10. Variables de Substitution Dynamiques
+Balises pour piloter vos outils personnalisés :
+- `$SRCPATH` : Chemin absolu vers le fichier source (.s).
+- `$OUTPATH` : Destination pour l'objet généré (.o).
+- `$INCDIR` : Chemin vers le dossier miroir des en-têtes (.h / .inc).
+- `$OUT` : Chemin complet du binaire final (EXE ou DLL).
+- `$OBJS` : Liste consolidée de tous les fichiers objets du projet (.o).
+- `$LIBS` : Liste des chemins vers les bibliothèques externes configurées.
+
+---
+
+## 11. Téléchargements & Distribution (Licence Community)
+- **macOS** : [Télécharger WeARM®.dmg](https://upd.wearm.dev/get/mac)
+- **Windows** : [Télécharger WeARM®_Setup.exe](https://upd.wearm.dev/get/windows)
+
+© 2026 **WeARM®** Core™ – All rights reserved. Proprietary Technology.
