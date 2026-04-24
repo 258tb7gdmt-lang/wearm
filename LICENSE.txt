@@ -1,0 +1,11 @@
+WEARM - END USER LICENSE AGREEMENT (EULA)
+
+Copyright (c) 2026 WeARM. All rights reserved.
+
+    PROPRIETARY RIGHTS: The WeARM software, logo, and algorithms (including Linear Arena and Slab Allocator) are the exclusive property of the author.
+
+    RESTRICTIONS: You may not decompile, reverse engineer, or attempt to derive the source code of this software.
+
+    NO WARRANTY: The software is provided "AS IS", without warranty of any kind. The author shall not be liable for any damages arising from the use of this software.
+
+    DISTRIBUTION: This binary version is free for educational use. Redistribution must include this license.
