@@ -27,26 +27,30 @@ Injection massive dépassant le milliard d'objets avec vérification d'intégrit
 | **Throughput (12 threads)** | 51,05 M obj/sec | **211,18 M obj/sec** | M4 : Saturation mémoire unifiée |
 | **Heavy Stress (128 threads)** | 61,45 M obj/sec | **155,69 M obj/sec** | Stabilité totale (0 Integrity Faults) |
 
-**Verdict** : Alors que le Ryzen 7 utilise son **3D V-Cache** pour maintenir un débit linéaire, le Mac M4 exploite sa **Bande Passante Unifiée** pour quadrupler les performances globales. L'absence de crash à 128 threads confirme la robustesse du moteur.
-
 ---
 
-## 3. Scalabilité et Résilience Multithread (128 Threads)
-Traitement de 128 millions d'objets via 128 threads simultanés (Test de contention).
+## 3. Scalabilité Critique (256 Threads / 256M Objets)
+Test de résistance en zone de sur-souscription extrême sur architecture x86_64.
 
-* **Sur PC (Ryzen 7)** : AETHER termine en **71,6 ms**, soit **20x plus rapide** que le `malloc` standard de l'OS (1443 ms). 
-* **Sur Mac (M4)** : AETHER termine en **308 ms**, maintenant une avance de **30%** sur le `malloc` d'Apple, malgré l'optimisation extrême de la LibC macOS pour l'ARM64.
+| Moteur de Gestion | Temps d'exécution | Cycles CPU (Peak) |
+| :--- | :--- | :--- |
+| Standard LibC (Malloc) | 12 034,66 ms | 50 545 589 029 |
+| **AETHER (WeARM)** | **81,28 ms** | **341 413 756** |
+
+**Observation Cruciale :** Alors que la gestion mémoire standard de l'OS s'effondre totalement sous la pression (multipliant son temps d'exécution par 8 entre 128 et 256 threads), **AETHER maintient une performance quasi-linéaire**. 
+
+**Verdict :** AETHER est **148,05 fois plus rapide** que les solutions standards dans les environnements massivement parallèles.
 
 ---
 
 ## 4. Conclusions par Architecture
 
 ### Optimisation x86_64 (AMD)
-AETHER transforme le Ryzen 7 en une station de calcul industrielle. En réduisant la dépendance aux verrous système, il permet de passer d'un temps de traitement de 1,4 seconde à seulement 71 millisecondes pour des charges massives. C'est la solution ultime pour éliminer le goulot d'étranglement de la LibC sous Windows et Linux.
+AETHER transforme le Ryzen 7 en une station de calcul industrielle. En supprimant la "tempête de verrous" (Lock Storm) des systèmes classiques, il permet de traiter en **81 millisecondes** ce qui prend normalement **12 secondes**. C'est la solution ultime pour les infrastructures serveurs saturées.
 
 ### Optimisation ARM64 (Apple Silicon)
-L'alliance d'AETHER et du M4 représente l'état de l'art actuel. Avec un coût d'allocation de **9,8 cycles**, le moteur devient virtuellement transparent pour le processeur. L'exploitation native des instructions ARM64 permet à WeARM® d'offrir une réactivité sans précédent pour le traitement vidéo temps réel et l'analyse binaire haute densité.
+L'alliance d'AETHER et du M4 représente l'optimum technologique actuel. Avec un coût d'allocation de **9,8 cycles**, le moteur devient virtuellement transparent pour le processeur. L'exploitation native des instructions ARM64 permet à WeARM® d'offrir une réactivité sans précédent pour le traitement de données haute densité.
 
 ---
 
-**Verdict Final** : Si le Ryzen 7 offre une accélération spectaculaire par rapport à l'existant, le Mac M4 est la plateforme où AETHER atteint sa forme la plus pure. WeARM® s'impose comme l'environnement de développement le plus efficient du marché pour les architectures ARM et x86.
+**Note de Confidentialité** : L'architecture interne d'AETHER (Slab/Arena avec chaînage invisible) est protégée par le secret industriel. Les résultats présentés sont reproductibles sur les binaires natifs de la version Professionnelle de WeARM®.
