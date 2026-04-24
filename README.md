@@ -26,7 +26,7 @@ Le Core de WeARM est propulsé par AETHER, une infrastructure de calcul proprié
 
 ## 4. Architecture Découplée & Plugins de Précision
 L'intelligence de WeARM ne repose pas sur un bloc monolithique, mais sur une architecture modulaire où les composants critiques sont externalisés et substituables.
-- **Moteurs d'Analyse Distribués** : Le moteur de désassemblage (basé sur Capstone), le Highlighting et les suggestions d'instructions ne sont pas intégrés nativement au Core. Ils opèrent sous forme de plugins autonomes.
+- **Moteurs d'Analyse Distribués** : Le moteur de désassemblage (basé sur Capstone), le Highlighting et les suggestions d'instructions opèrent sous forme de plugins autonomes.
 - **SDK & Évolutivité (v3.6RC)** : Cette architecture permet aux industries d'intégrer leurs propres moteurs. Le plugin 'core.wearm.engine.capstone' sera disponible sous licence MIT pour servir de modèle de substitution.
 - **Moteur de Scripting LUA** : Intégration native du loader 'com.wearm.core.loader.lua'. Il permet l'extension de fonctionnalités via scripts LUA, offrant une alternative agile au développement C/C++.
 
@@ -54,7 +54,7 @@ WeARM repose sur une couche d'abstraction propriétaire : le système de fichier
 
 ## 7. Noyau d'Introspection Binaire & Recherche
 WeARM déconstruit le code pour identifier les structures machine réelles avec une précision absolue.
-- **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF. Il cartographie les segments directement depuis le binaire assemblé.
+- **Parsing Haute Fidélité** : Analyse native des formats PE, COFF et ELF. Il cartographie les segments directement depuis le binaire assemblé. Cette introspection s'appuie sur nos propres moteurs de parsing entièrement autonomes : WeARM ne dépend d'aucune API système et reste insensible aux mises à jour ou modifications des bibliothèques de l'OS.
 - **Scoring Intelligence** : Détection automatique du point d’entrée garantissant un linking correct sans besoin de symboles explicites de la part de l'utilisateur.
 - **Innovation Windows** : Résout les liaisons complexes et extraction des symboles sans usage de fichiers .def ou de directives `__declspec`.
 - **Recherche Universelle** : Recherche active après exécution utilisant l'extraction des symboles du projet complet. Détection des conflits (Duplicate Labels) et Quick-Jump vers l'instruction.
