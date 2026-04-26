@@ -38,7 +38,7 @@ Le Core de **WeARM®** est propulsé par AETHER, une infrastructure de calcul pr
 
 - **Souveraineté Mémoire (O(1))** : Contrairement aux gestions de tas (Heap) standards, AETHER utilise un moteur d'allocation déterministe. Chaque objet `we::Managed` bénéficie d'un accès instantané à la ressource, garantissant une fluidité constante même sous une charge de calcul extrême.
 - **Déterminisme Temporel** : Le cycle de vie complet d'une session de calcul (Initialisation, Allocation de 100 objets Managed, Traitement et Destruction) est stabilisé à une moyenne de 11,7 microsecondes. Cette précision garantit une réactivité prédictible, indispensable pour l'analyse chirurgicale des flux d'instructions ARM64 et x86_64.
-- **Optimisation de la Barrière Silicium** : AETHER maximise la localité spatiale en alignant dynamiquement les structures de données sur l'architecture interne du processeur. Le moteur réduit drastiquement les cycles d'attente (Wait States) en optimisant les interactions avec les caches de données et les unités de gestion mémoire (MMU) du CPU.
+- **Optimisation de la Barrière Silicium** : AETHER maximise la localité spatiale en alignant dynamiquement les structures de données sur l'architecture interne du processeur. Le moteur réduit drastiquement les cycles d'attente (Wait States) en optimisant les interactions avec les caches de données et les unités de gestion mémoire (MMU) du CPU. **En garantissant que les instructions séquentielles sont physiquement contiguës en mémoire, cette architecture élimine efficacement les "Cache Miss" L1 lors du flux d'exécution.**
 
 ---
 
