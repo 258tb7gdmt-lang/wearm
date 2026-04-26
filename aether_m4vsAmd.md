@@ -53,4 +53,4 @@ L'alliance d'AETHER et du M4 représente l'optimum technologique actuel. Avec un
 
 ---
 
-**Note de Confidentialité** : L'architecture interne d'AETHER est protégée par le secret industriel. Les résultats présentés sont reproductibles sur les binaires natifs de la version Professionnelle de WeARM®.
+**Note de Confidentialité** : L'architecture interne d'AETHER est protégée par le secret industriel. Les résultats présentés sont reproductibles.
