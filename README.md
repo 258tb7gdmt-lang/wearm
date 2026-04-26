@@ -7,7 +7,7 @@
 ## Sommaire
 1. [Introduction Technique](#1-introduction-technique)
 2. [Modèle de Licence](#2-modèle-de-licence)
-3. [Infrastructure de Calcul AETHER™](#3-infrastructure-de-calcul-aether)
+3. [Infrastructure de Calcul WeARM® AETHER](#3-infrastructure-de-calcul-aether)
 4. [Architecture Découplée & Plugins](#4-architecture-découplée--plugins-de-précision)
 5. [Le Trampoline : Surveillance & Diagnostic](#5-le-trampoline--surveillance--diagnostic)
 6. [Architecture VFS & Gestion des Sources](#6-architecture-vfs--gestion-des-sources)
@@ -31,7 +31,7 @@ Conçu pour les entreprises, les industries de haute technologie et le secteur d
 
 ---
 
-## 3. Infrastructure de Calcul AETHER™
+## 3. Infrastructure de Calcul WeARM® AETHER
 *Note : Technologie disponible exclusivement dans les versions Pro et supérieures.*
 
 Le Core de **WeARM®** est propulsé par AETHER, une infrastructure de calcul propriétaire conçue pour l'exécution massivement parallèle et la suppression des goulots d'étranglement mémoires traditionnels.
