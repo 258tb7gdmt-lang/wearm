@@ -1,23 +1,30 @@
 # LABS351
 
+**Native Software Engineering Platform**
+
 LABS351 is a professional platform for native software engineering,
 assembly development, binary introspection, ABI validation,
 runtime diagnostics and toolchain orchestration.
 
-Developed and published by **ANSL TECHNOLOGIES SAS**.
+LABS351 is developed and published by **ANSL TECHNOLOGIES SAS**.
 
-## Official resources
+## Official websites
 
-- Product: https://www.labs351.io/
-- Documentation: https://www.labs351.io/docs/
-- Downloads: https://www.labs351.io/
-- Company: https://www.ansl.fr/
+- LABS351: https://www.labs351.io/
+- ANSL TECHNOLOGIES: https://www.ansl.fr/
 
 ## Source code
 
-The LABS351 core is proprietary software.
+LABS351 Core is proprietary software.
 
-This repository does not contain the LABS351 Core source code.
+The source code of the LABS351 Core is not distributed through this
+repository.
 
 Public SDK components, examples and integration resources may be
 published separately.
+
+## Documentation
+
+Official documentation is available at:
+
+https://www.labs351.io/docs/
