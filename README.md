@@ -1,57 +1,23 @@
-# LABS 351
-Experimental Low-Level Systems Laboratory
+# LABS351
 
-## Overview
-LABS 351 is an experimental software laboratory focused on:
-* Operating systems exploration
-* Bare-metal development
-* Computer architecture experimentation
-* Binary analysis
-* Systems programming
-* Research and education
+LABS351 is a professional platform for native software engineering,
+assembly development, binary introspection, ABI validation,
+runtime diagnostics and toolchain orchestration.
 
-## Latest Release (v3.5RC)
-### 🔒 Integrity Verification (SHA-256)
-Before running the application, you can verify the integrity of your downloaded files:
+Developed and published by **ANSL TECHNOLOGIES SAS**.
 
-* **macOS (DMG):** `shasum -a 256 Labs351_v3.5RC.dmg`
-  `INSERT_MAC_HASH_HERE`
-* **Windows (ZIP):** `Get-FileHash .\Labs351_v3.5RC.zip -Algorithm SHA256`
-  `INSERT_WINDOWS_HASH_HERE`
+## Official resources
 
-## Intended Audience
-* Students
-* Educators
-* Researchers
-* Systems developers
-* Low-level computing enthusiasts
+- Product: https://www.labs351.io/
+- Documentation: https://www.labs351.io/docs/
+- Downloads: https://www.labs351.io/
+- Company: https://www.ansl.fr/
 
-## Usage Scope
-This software is provided for:
-* Personal use
-* Educational purposes
-* Academic work
-* Research
-* Non-commercial experimentation
+## Source code
 
-Commercial, industrial, governmental, or revenue-generating use is prohibited without prior written authorization.
+The LABS351 core is proprietary software.
 
-## Experimental Nature
-LABS 351 operates close to system and hardware layers and may cause:
-* System instability
-* Crashes
-* Data loss (including within the Virtual File System)
-* Unexpected execution behavior
+This repository does not contain the LABS351 Core source code.
 
-Use only in controlled, isolated, or testing environments.
-
-## Legal
-This software is governed by:
-* LICENSE.txt
-* EULA.txt
-* COPYRIGHT.txt
-
-By using this software, you accept these terms in full.
-
-## Copyright
-Copyright © 2026 Nasser SAÏDI. All Rights Reserved.
+Public SDK components, examples and integration resources may be
+published separately.
